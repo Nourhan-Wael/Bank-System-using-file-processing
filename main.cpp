@@ -2,7 +2,7 @@
 #include<fstream>
 using namespace std;
 
-
+int cnt = 0;
 class account
 {
 public:
@@ -34,8 +34,7 @@ void account::create_account()
     account a;
     cout << "Enter name: ";
     cin >> a.name;
-    cout << "Enter id: ";
-    cin >> a.id;
+    a.id = ++cnt;
     cout << "Enter age: ";
     cin >> a.age;
     cout << "Enter balance: ";
@@ -45,6 +44,7 @@ void account::create_account()
     // add this abject to the file
     file.write((char *)&a, sizeof(a));
     file.close();
+    cout << "Account created successfully\n";
 }
 
 // modify ACOUNT 
@@ -81,17 +81,21 @@ void account :: display_accounts()
 {
     account a;
     fstream file;
+    bool ok = false;
     file.open("project.txt", ios::in);
     file.seekg(0, ios::beg);
     while (file.read((char *)&a, sizeof(a)))
     {
-    if(a.id == -1)
-    continue;
-    cout << "Name: " << a.name << endl;
-    cout << "Id: " << a.id << endl;
-    cout << "Age: " << a.age << endl;
-    cout << "Balance: " << a.balance << endl;
+        if(a.id == -1)
+            continue;
+        cout << "Name: " << a.name << endl;
+        cout << "Id: " << a.id << endl;
+        cout << "Age: " << a.age << endl;
+        cout << "Balance: " << a.balance << endl;
+        ok = true;
     }
+    if (!ok)
+        cout << "No accounts found\n";
     file.close();
 }
 
@@ -199,8 +203,8 @@ int main()
     account a;
     char ch;
     do{  
-        cout<<"*****************************Bank Management System*****************************";
-        cout<<"MAIN MENU"<<"\n";
+        cout<<"*****************************Bank Management System*****************************\n";
+        cout<<"MAIN MENU:"<<"\n";
         cout<<"1)  NEW ACCOUNT "<<"\n";
         //cout<<"2)  DEPOSIT AMOUNT"<<"\n";
         //cout<<"3)  WITHDRAW AMOUNT"<<"\n";
@@ -249,13 +253,18 @@ int main()
                 break;  
 
             case '8':
-                cout<<"Thanks for using Our Bank Management System";
+                cout<<"Thanks for using Our Bank Management System\n";
                 break;  
 
             default:
                 break;
 
         }
+        char c;
+        cout<<"Do you want to continue (y/n) : ";
+        cin>>c;
+        if(c == 'n' || c == 'N')
+            break;
 
     }while(ch !=  '8');
 
