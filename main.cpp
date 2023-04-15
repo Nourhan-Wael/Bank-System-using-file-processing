@@ -100,18 +100,20 @@ void account :: display_accounts()
 }
 
 // // search ACOUNT 
-void account :: search(int id)
+//search by name and display all the erecords with that name
+void account :: search(string name)
 {
     fstream f;
     account c;
     bool flag = 0;
+    int id=0;
     f.open("project.txt",ios::in);
     while(!f.eof()){
     f.read((char *)&c,sizeof(c));
-    if(c.id==id){
+    if(c.name==name&&c.id!=id){
     flag = 1;
-    cout<<c.id<<" "<<c.name<<" "<<c.balance<<" "<<c.age<<"\n";
-    break;
+    cout<<c.id<<"   "<<c.name<<"    "<<c.balance<<"    "<<c.age<<"\n";
+    id=c.id;
     }
     }
     if(!flag)
@@ -119,6 +121,7 @@ void account :: search(int id)
 
     f.close();
 }
+
 
 // delete ACOUNT 
 void account :: delete_account(int id)
@@ -202,6 +205,7 @@ int main()
 {
     account a;
     char ch;
+    string name;
     do{  
         cout<<"*****************************Bank Management System*****************************\n";
         cout<<"MAIN MENU:"<<"\n";
@@ -244,8 +248,14 @@ int main()
 
             case '6':
                 // write function
-                a.search(7);
+                cout<<"Enter the name you want to search for:\n";
+                cin>>name;
+                cout<<"ID  Name  balance  age\n";
+                cout<<"------------------------\n";
+                a.search(name);
+                cout<<"------------------------\n";
                 break;
+
 
             case '7':
                 // write function
